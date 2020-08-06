@@ -108,11 +108,21 @@ class App extends Component {
     localStorage.setItem("tasks",JSON.stringify(this.state.taskList));
   }
   handleDelete=(id)=>{
-    console.log(id);
-      const {newTask} = this.state;
-
       
+    
+        const newTask = this.state.taskList;
 
+        newTask.map((data,index)  =>{
+          if(data.id == id){
+            newTask.splice(index,1);
+          }
+        })
+        this.setState({
+          taskList:newTask,
+        })
+        localStorage.setItem('tasks',JSON.stringify(this.state.taskList));
+      
+      
   }
   render(){
     let {taskList,isDisplay} = this.state;
