@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import TableList from "./TableList";
 class Table extends Component {
+
+
     render(){
-        let {taskList} = this.props;
-        let elementList = taskList.map(function(item,ỉndex){
-            return <TableList key={item.id}  stt={ỉndex} tasksValue={item}/>
-        });
+        let {taskList,onDelete} = this.props;
+        let elementList = taskList.map((item,index)=>
+             <TableList 
+                        key={index}
+                        stt={index}
+                        tasksValue={item} 
+                        updateStatus={this.props.updateStatusApp}
+                        onDelete={onDelete}
+            />
+                        
+        );
         return (
             <div className="row mt-15">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
