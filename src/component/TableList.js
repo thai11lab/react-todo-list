@@ -31,7 +31,9 @@ class TableList extends Component{
                     ></span>Sửa
                 </button>
                     &nbsp;
-                <button type="button" className="btn btn-danger" onClick={this.handleDelete}>
+                <button type="button" className="btn btn-danger" onClick={(e)=>{
+                         if (window.confirm('Bạn có chắc muốn xóa chứ ?')) this.handleDelete()                 
+                    }}>
                         
                     <span className="fa fa-trash mr-5"
                            
