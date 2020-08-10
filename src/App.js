@@ -84,9 +84,18 @@ class App extends Component {
   }  
 
   handleDisPlay =()=>{
-    this.setState({
-      isDisplay:true,
-    });
+    if(this.state.taskEdit){
+      this.setState({
+        isDisplay:true,
+        taskEdit:null,
+      })
+      
+    }else{
+      this.setState({
+        isDisplay:true,
+        taskEdit:null,
+      });
+    }
   }
 
   handleClose=()=>{
@@ -133,11 +142,11 @@ class App extends Component {
     return result;
   }
   handleUpdate=(id)=>{
-    this.handleDisPlay();
     const index = this.findIndex(id);
     const {taskList} = this.state;
     const taskEditing = taskList[index];
     this.setState({
+      isDisplay:true,
       taskEdit:taskEditing,
     });
   }

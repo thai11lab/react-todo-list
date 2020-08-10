@@ -47,6 +47,12 @@ class FormAdd extends Component {
                 name:nextProps.taskEdit.name,
                 status:nextProps.taskEdit.status,
             })
+        }else{
+            this.setState({
+                id:"",
+                name:"",
+                status:"",
+            })
         }
     }
 
