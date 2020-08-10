@@ -12,6 +12,7 @@ class Table extends Component {
                         tasksValue={item} 
                         updateStatus={this.props.updateStatusApp}
                         onDelete={onDelete}
+                        onUpdate={this.props.onUpdate}
             />
                         
         );

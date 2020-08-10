@@ -8,7 +8,8 @@ class App extends Component {
 
     state={
       taskList:[],
-      isDisplay:false
+      isDisplay:false,
+      taskEdit:null,
     };
   
     
@@ -68,11 +69,17 @@ class App extends Component {
 
   onSubmit=(data)=>{
     var {taskList} = this.state;
-    data.id = this.gernarate();
-    taskList.push(data);
-    this.setState({
-      taskList:taskList, 
-    })
+    if(data.id){
+        const index = this.findIndex(data.id);
+        taskList[index]=data;
+    }else{
+      data.id = this.gernarate();
+      taskList.push(data);
+      this.setState({
+        taskList:taskList, 
+        taskEdit:" ",
+      })
+    }
     localStorage.setItem('tasks',JSON.stringify(this.state.taskList));
   }  
 
@@ -92,11 +99,6 @@ class App extends Component {
     const newTask = this.state.taskList;
     newTask.map(data =>{
       if(data.id === id){
-          //  if(data.status==true){
-          //     data.status=false;
-          //  }else{
-          //    data.status=true;
-          //  }
           data.status = !data.status;
       }
     })
@@ -108,25 +110,40 @@ class App extends Component {
     localStorage.setItem("tasks",JSON.stringify(this.state.taskList));
   }
   handleDelete=(id)=>{
-      
-    
-        const newTask = this.state.taskList;
-
-        newTask.map((data,index)  =>{
-          if(data.id == id){
-            newTask.splice(index,1);
-          }
-        })
-        this.setState({
-          taskList:newTask,
-        })
-        localStorage.setItem('tasks',JSON.stringify(this.state.taskList));
-      
-      
+      const newTask = this.state.taskList;
+      newTask.map((data,index)  =>{
+      if(data.id == id){
+          newTask.splice(index,1);
+        }
+      })
+      this.setState({
+        taskList:newTask,
+      })
+      localStorage.setItem('tasks',JSON.stringify(this.state.taskList));
+  }
+  
+  findIndex =(id)=>{
+    const {taskList}= this.state;
+    let result = -1;
+    taskList.forEach((data,index) => {
+      if(data.id==id){
+        result=index;
+      }
+    });
+    return result;
+  }
+  handleUpdate=(id)=>{
+    this.handleDisPlay();
+    const index = this.findIndex(id);
+    const {taskList} = this.state;
+    const taskEditing = taskList[index];
+    this.setState({
+      taskEdit:taskEditing,
+    });
   }
   render(){
-    let {taskList,isDisplay} = this.state;
-    var form = isDisplay == true ? <FormAdd getValue={this.onSubmit} onClose={this.handleClose}/> : " ";
+    let {taskList,isDisplay,taskEdit} = this.state;
+    var form = isDisplay == true ? <FormAdd getValue={this.onSubmit} onClose={this.handleClose} taskEdit={taskEdit}/> : " ";
     return (
       <div className="container">
           <Header/>  
@@ -145,6 +162,7 @@ class App extends Component {
                   <Table taskList={ taskList }
                           updateStatusApp={this.handleUpdateStatus}
                           onDelete={this.handleDelete}
+                          onUpdate={this.handleUpdate}
                   />
             </div>
         </div>

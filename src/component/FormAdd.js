@@ -3,6 +3,7 @@ import React, { Component } from "react"
 class FormAdd extends Component {
 
     state={
+        id:"",
         name:"",
         status:false
     }
@@ -19,7 +20,6 @@ class FormAdd extends Component {
     }
 
     onSubmit =(e)=>{
-        e.preventDefault();
         this.props.getValue(this.state);
     }
 
@@ -27,13 +27,37 @@ class FormAdd extends Component {
     {
         this.props.onClose();
     }
+
+    componentWillMount(){
+        if(this.props.taskEdit){
+            this.setState({
+                id:this.props.taskEdit.id,
+                name:this.props.taskEdit.name,
+                status:this.props.taskEdit.status,
+            })
+        }
+    }
+
+
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps);
+        if(nextProps && nextProps.taskEdit){
+            this.setState({
+                id:nextProps.taskEdit.id,
+                name:nextProps.taskEdit.name,
+                status:nextProps.taskEdit.status,
+            })
+        }
+    }
+
     render(){
-       return(
+        let {id} = this.state;
+        return(
         <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <div className="panel panel-warning">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        Thêm Khóa Học
+                        { id ? " Cập nhật khóa học ": " Thêm khóa học "}
                         <span className="fas fa-times-circle text-right"    
                                 onClick={this.handleClose}
                                 style={{
