@@ -7,7 +7,7 @@ class Table extends Component {
         filterStatus:-1,
     }
     
-    onChange=(e)=>{
+    handleChange=(e)=>{
         const name = e.target.name;
         const value = e.target.value;
         this.setState({
@@ -48,11 +48,15 @@ class Table extends Component {
                                     <input type="text" 
                                         className="form-control" 
                                         value={filterName}
-                                        onChange={this.onChange}
+                                        onChange={this.handleChange}
+                                        name="filterName"
                                     />
                                 </td>
                                 <td>
-                                    <select className="form-control">
+                                    <select className="form-control" 
+                                    name="filterStatus" 
+                                    onChange={this.handleChange}
+                                    >
                                         <option value={-1}>Tất Cả</option>
                                         <option value={0}>Ẩn</option>
                                         <option value={1}>Kích Hoạt</option>
