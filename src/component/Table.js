@@ -13,6 +13,7 @@ class Table extends Component {
         this.setState({
             [name]:value
         });
+        this.props.onFilter(this.state);
     }
 
     render(){
@@ -56,6 +57,7 @@ class Table extends Component {
                                     <select className="form-control" 
                                     name="filterStatus" 
                                     onChange={this.handleChange}
+                                    value={filterStatus}
                                     >
                                         <option value={-1}>Tất Cả</option>
                                         <option value={0}>Ẩn</option>

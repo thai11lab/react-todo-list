@@ -10,6 +10,10 @@ class App extends Component {
       taskList:[],
       isDisplay:false,
       taskEdit:null,
+      Filter:{
+        name:"",
+        status:-1
+      }
     };
   
     
@@ -151,8 +155,24 @@ class App extends Component {
       taskEdit:taskEditing,
     });
   }
+
+  handleFilter=(data)=>{
+    this.setState({
+      Filter:{
+        name:data.filterName.toLowerCase(),
+        status:data.filterStatus
+      }
+    })
+    
+  }
   render(){
-    let {taskList,isDisplay,taskEdit} = this.state;
+    let {taskList,isDisplay,taskEdit,Filter} = this.state;
+    
+    if(Filter){
+      taskList=taskList.filter(data=>{
+        return data.name.toLowerCase().indexOf(Filter.name) !==-1;
+      })
+    }
     var form = isDisplay == true ? <FormAdd getValue={this.onSubmit} onClose={this.handleClose} taskEdit={taskEdit}/> : " ";
     return (
       <div className="container">
@@ -169,10 +189,11 @@ class App extends Component {
                       <span className=""></span>Genarate
                   </button>
                   <Control/>
-                  <Table taskList={ taskList }
+                  <Table  taskList={ taskList }
                           updateStatusApp={this.handleUpdateStatus}
                           onDelete={this.handleDelete}
                           onUpdate={this.handleUpdate}
+                          onFilter={this.handleFilter}
                   />
             </div>
         </div>
