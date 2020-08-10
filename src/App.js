@@ -81,6 +81,7 @@ class App extends Component {
       })
     }
     localStorage.setItem('tasks',JSON.stringify(this.state.taskList));
+    this.handleClose();
   }  
 
   handleDisPlay =()=>{

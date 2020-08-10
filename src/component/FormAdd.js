@@ -20,6 +20,7 @@ class FormAdd extends Component {
     }
 
     onSubmit =(e)=>{
+        e.preventDefault();
         this.props.getValue(this.state);
     }
 
