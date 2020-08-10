@@ -168,7 +168,7 @@ class App extends Component {
   render(){
     let {taskList,isDisplay,taskEdit,Filter} = this.state;
     
-    if(Filter){
+    if(Filter.name){
       taskList=taskList.filter(data=>{
         return data.name.toLowerCase().indexOf(Filter.name) !==-1;
       })
