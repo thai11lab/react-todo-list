@@ -168,11 +168,15 @@ class App extends Component {
   render(){
     let {taskList,isDisplay,taskEdit,Filter} = this.state;
     
-    if(Filter.name){
-      taskList=taskList.filter(data=>{
-        return data.name.toLowerCase().indexOf(Filter.name) !==-1;
-      })
+    if(Filter){
+      if(Filter.name){
+        taskList=taskList.filter(data=>{
+          return data.name.toLowerCase().indexOf(Filter.name) !==-1;
+        })
+      }
+      
     }
+  
     var form = isDisplay == true ? <FormAdd getValue={this.onSubmit} onClose={this.handleClose} taskEdit={taskEdit}/> : " ";
     return (
       <div className="container">
