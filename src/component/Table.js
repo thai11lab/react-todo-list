@@ -10,10 +10,13 @@ class Table extends Component {
     handleChange=(e)=>{
         const name = e.target.name;
         const value = e.target.value;
+        this.props.onFilter(
+            name==="filterName" ? value : this.state.filterName,
+            name==="filterStatus" ? value : this.state.filterStatus,
+        );    
         this.setState({
-            [name]:value
+            [name]:value,
         });
-        this.props.onFilter(this.state);
     }
 
     render(){

@@ -5,18 +5,20 @@ class FormAdd extends Component {
     state={
         id:"",
         name:"",
-        status:false
+        status:true
     }
     
     handleChange=(e)=>{
+        
         var name = e.target.name;
         var value = e.target.value;
         if(name=="status"){
-            value = e.target.value == "fasle" ? false:true;
+            value = e.target.value == "true" ? true:false   ;
         }
+        
         this.setState({
             [name]:value,
-        })
+        });
     }
 
     onSubmit =(e)=>{

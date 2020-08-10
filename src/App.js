@@ -13,45 +13,14 @@ class App extends Component {
       Filter:{
         name:"",
         status:-1
-      }
+      },
+
+      keyword:""
     };
   
     
   onGenarate=()=>{
-
-    const taskListTest=[
-      {
-        "id":this.gernarate(),
-        "name":"Khóa học Java",
-        "status":false,
-      },
-      {
-        "id":this.gernarate(),
-        "name":"Khóa học React ",
-        "status":true,
-      },
-      {
-        "id":this.gernarate(),
-        "name":"Khóa học Angular",
-        "status":true,
-      },
-      {
-        "id":this.gernarate(),
-        "name":"Khóa học C++",
-        "status":false,
-      },
-      {
-        "id":this.gernarate(),
-        "name":"Khóa học Spring MVC",
-        "status":false,
-      },
-    ];
-
-    this.setState({
-      taskList:taskListTest,
-    });
-
-    localStorage.setItem("tasks",JSON.stringify(taskListTest));
+    localStorage.removeItem("tasks");   
   }
 
   
@@ -156,17 +125,23 @@ class App extends Component {
     });
   }
 
-  handleFilter=(data)=>{
+  handleFilter=(filterName,filterStatus)=>{
+    const status=parseInt(filterStatus,10)
     this.setState({
       Filter:{
-        name:data.filterName.toLowerCase(),
-        status:data.filterStatus
+        name:filterName.toLowerCase(),
+        status:status,
       }
     })
-    
+    console.log(status);
+  }
+  handleSearch=(key)=>{
+    this.setState({
+      keyword:key.toLowerCase(),
+    })
   }
   render(){
-    let {taskList,isDisplay,taskEdit,Filter} = this.state;
+    let {taskList,isDisplay,taskEdit,Filter,keyword} = this.state;
     
     if(Filter){
       if(Filter.name){
@@ -174,25 +149,41 @@ class App extends Component {
           return data.name.toLowerCase().indexOf(Filter.name) !==-1;
         })
       }
-      
+    
+      taskList=taskList.filter(data=>{
+        if(Filter.status==-1) return data;
+        else{
+          return data.status ===(Filter.status === 1 ? true:false);
+        }
+      })
     }
-  
+    
+    if(keyword){
+      taskList= taskList.filter(data=>{
+        return data.name.toLowerCase().indexOf(keyword) !==-1;
+      })
+    }
     var form = isDisplay == true ? <FormAdd getValue={this.onSubmit} onClose={this.handleClose} taskEdit={taskEdit}/> : " ";
     return (
       <div className="container">
           <Header/>  
           {form}
           <div className={ isDisplay == true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "container"} >
-                  <button type="button" className="btn btn-primary" onClick={this.handleDisPlay} >
+                  <button type="button" className="btn btn-primary" onClick={(e)=>{this.handleDisPlay()}} style={{marginTop:"10px"}}>
                       <span className="fa fa-plus mr-5"></span>Thêm Công Việc
                   </button>
                   <button type="button" 
-                          className="btn btn-warning"
-                          onClick={this.onGenarate}
+                          style={{marginLeft:"10px",marginTop:"10px"}}
+                          className="btn btn-danger"
+                          onClick={(e)=>{
+                            if(window.confirm("Bạn có chắc muốn xóa toàn bộ !"));
+                            this.onGenarate();
+                            window.location.reload();
+                          }}
                   >
-                      <span className=""></span>Genarate
+                      <span className=""></span>Xóa toàn bộ
                   </button>
-                  <Control/>
+                  <Control onSearch={this.handleSearch}/>
                   <Table  taskList={ taskList }
                           updateStatusApp={this.handleUpdateStatus}
                           onDelete={this.handleDelete}

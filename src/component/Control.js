@@ -4,9 +4,10 @@ import Sort from "./Sort";
 
 class Control extends Component{
     render(){
+        let {onSearch} = this.props;
         return(
             <div className="row mt-15">
-                <Search></Search>
+                <Search onSearch={onSearch}></Search>
                 <Sort></Sort>
             </div>
         );

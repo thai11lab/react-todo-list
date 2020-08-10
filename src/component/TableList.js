@@ -3,6 +3,7 @@ class TableList extends Component{
 
     handleUpdateStatus=()=>{
         console.log(this.props.tasksValue.id);
+        console.log(this.props);
         this.props.updateStatus(this.props.tasksValue.id);
     }
     handleDelete=()=>{
@@ -18,7 +19,7 @@ class TableList extends Component{
                 <td>{stt+1}</td>
                 <td>{tasksValue.name}</td>
                 <td className="text-center">
-                    <span className={tasksValue.status === true ? "label label-success" : "label label-warning"}
+                    <span className={tasksValue.status === true ? "label label-success " : "label label-warning"}
                             onClick={this.handleUpdateStatus}
                             style={{
                                 cursor:"pointer"
