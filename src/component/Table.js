@@ -2,9 +2,22 @@ import React, { Component } from 'react';
 import TableList from "./TableList";
 class Table extends Component {
 
+    state={
+        filterName:"",
+        filterStatus:-1,
+    }
+    
+    onChange=(e)=>{
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            [name]:value
+        });
+    }
 
     render(){
         let {taskList,onDelete} = this.props;
+        const {filterName,filterStatus}=this.state;
         let elementList = taskList.map((item,index)=>
              <TableList 
                         key={index}
@@ -32,13 +45,17 @@ class Table extends Component {
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input type="text" className="form-control" />
+                                    <input type="text" 
+                                        className="form-control" 
+                                        value={filterName}
+                                        onChange={this.onChange}
+                                    />
                                 </td>
                                 <td>
                                     <select className="form-control">
-                                        <option value="-1">Tất Cả</option>
-                                        <option value="0">Ẩn</option>
-                                        <option value="1">Kích Hoạt</option>
+                                        <option value={-1}>Tất Cả</option>
+                                        <option value={0}>Ẩn</option>
+                                        <option value={1}>Kích Hoạt</option>
                                     </select>
                                 </td>
                                 <td></td>
